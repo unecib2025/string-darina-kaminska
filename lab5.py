@@ -1,58 +1,48 @@
 #1
 
-name = input('Введите ваше имя: ')
+name = input("Введите имя: ").strip()
 
-if name.strip().isalnum():
+if name.isalnum():
     name = name.lower()
-    print('Имя корректно')
+    print("Имя корректно:", name)
 else:
-    print('Ошибка')
-
+    print("Ошибка")
 
 #2
-password = input('Введите пароль: ')
+password = input("Введите пароль: ")
 
-has_digit = False
-has_upper = False
-
-for sym in password:
-    if sym.isdigit():
-        has_digit = True
-    if sym.isupper():
-        has_upper = True
+has_digit = any(ch.isdigit() for ch in password)
+has_upper = any(ch.isupper() for ch in password)
 
 if len(password) >= 8 and has_digit and has_upper:
-    print('Пароль надёжен')
+    print("Пароль надёжен")
 else:
-    print('Пароль слаб')
-
+    print("Пароль слаб")
 
 #3
-
 log = "ACCESS DENIED"
-
-print(f'{log.capitalize() - вход запрещён}')
+result = log.capitalize() + " – вход запрещён"
+print(result)
 
 
 #4
-
 data = "ERROR connection ERROR failed access"
 
-data = data.replace("ERROR", "ALERT")
-alert_count = data.count("ALERT")
+new_data = data.replace("ERROR", "ALERT")
+count_alert = new_data.count("ALERT")
 
-print(f'Количесвто предупреждений: {alert_count}')
+print(new_data)
+print("Количество предупреждений:", count_alert)
 
 
 #5
 
 email = input("Введите email: ")
 
-if email.find("@") != -1:
-    domain = email.split("@")[1]
-    
-    if domain.endswith(".com"):
-        print("Домен:", domain)
+if "@" in email:
+    parts = email.split("@")
+    if len(parts) == 2 and parts[1] != "":
+        print("Домен:", parts[1])
     else:
         print("Некорректный адрес")
 else:
@@ -60,98 +50,88 @@ else:
 
 
 #6
-text = input()
+text = input("Введите текст: ")
 
-text = text.strip().lower().replace(" ", "_")
-print(text)
+normalized = text.strip().lower().replace(" ", "_")
+print(normalized)
 
 
 #7
-message = input()
-if message.find("SECRET") != -1:
-    message = message.replace("SECRET", "******")
-    print('Опасно')
+msg = input("Введите строку: ")
+
+if msg.find("SECRET") != -1:
+    safe = msg.replace("SECRET", "******")
+    print("Обнаружены секретные данные!")
+    print(safe)
 else:
-    print('Безопасно')
+    print("Данные безопасны.")
 
 
 #8
+word = input("Введите слово: ")
 
-word = input()
+codes = [ord(ch) for ch in word]
+print("Коды символов:", codes)
 
-codes = ""
-for ch in word:
-    codes += str(ord(ch)) + " " 
-print(codes.strip())
-
-decoded = ""
-for ch in word:
-    decoded += chr(ord(ch)) 
-
-print(f'Расшифрованное сообщение: {decoded}')
+decoded = ''.join(chr(code) for code in codes)
+print("Восстановленное слово:", decoded)
 
 
 #9
 text = "login attempt failed access denied unauthorized access"
 
-has_failed = text.count('failed')
-has_denied = text.count('denied')
+count_failed = text.count("failed")
+count_denied = text.count("denied")
 
-print(f'Denied: {has_denied}')
-print(f'Failed: {has_failed}')
+print("failed:", count_failed)
+print("denied:", count_denied)
 
-if 'failed' in text or 'denied' in text:
-    print('Попытка несанкционированного доступа')
+if count_failed > 0 or count_denied > 0:
+    print("Попытка несанкционированного доступа")
 
 
 #10
 report = input("Введите отчёт: ")
 
-sentences = report.split(".")
-sentence_count = 0
-for s in sentences:
-    if s.strip() != "":
-        sentence_count += 1
-print(f'Количество предложений: {sentence_count}')
+sentences = [s for s in report.split(".") if s.strip() != ""]
+num_sentences = len(sentences)
 
-report_no_spaces = report.replace(' ', '')
-chars_count = len(report_no_spaces)
-print(f'Количество символов без пробелов:{chars_count}')
+count_chars = len(report.replace(" ", ""))
 
-report_lower = report.lower()
-if report_lower.startswith("report"):
-    print('Текст начинается с 'Report'')
-else:
-    print('Текст не начинается с 'Report'')
+starts_correct = report.lower().startswith("report")
+
+errors = report.lower().count("error")
+error_msg = "Ошибки найдены" if errors >= 2 else "Ошибок нет"
+
+print("Предложений:", num_sentences)
+print("Символов без пробелов:", count_chars)
+print("Начинается с 'Report':", starts_correct)
+print(error_msg)
 
 
-error_count = report_lower.count('error')
-if error_count >= 2:
-    print('Ошибки найдены')
+"""
+1. это неизменяемая последовательность символов, объект типа str.
 
+2. это стандарт, который присваивает каждому символу уникальный номер.
+Позволяет работать с любым языком и любыми символами.
 
-'''
-    ответы на контрольные вопросы:
-    1)строка это последовательность символов которая заключена в кавычки(кавычки могут быть как одинарными так и двойными)
-    является неизменяем типом данных в пайтоне
+3. strip() — удаляет пробелы по краям
 
-    2)юникод это стандарт кодирования символов, который позволяет использовать любые буквы, цифры, символы и тд всех языков мира
-    иными словами он используется в пайтоне для того чтобы интерпретатор мог корректно работать с текстом на разных языках мира
+replace(a, b) — заменяет подстроку a на b
 
-    3)strip() - убирает пробелы  с начала и конца строки.
-    replace() -заменяет все старые вхождения на новые, первым параметром указываем старое вхождение вторым новое(на которое хотим заменить)
-    find()- возвращает индекс первого вхождения подстроки(параметра) или -1, если подстрока не найдена
+find(x) — возвращает индекс первого вхождения x или -1
 
-    4)с помощью метода count()
+4. text.count("подстрока")
 
-    5)upper() делает все буквы строки заглавными
-    capitalize() делает только первую букву строки заглавной, остальные  маленькими
+5. upper() — все символы в верхний регистр.
 
-    6)ord(char) - возвращает числовой код символа юникод
-    chr(code) - возвращает символ по его числовому коду
+capitalize() — только первый символ строки заглавный, остальные — строчные.
 
-    7)с помощью метода startswith()
+6. ord('A')  код символа (число).
 
-    8)это помогает прежде всего отформатировать данные чтобы в дальнейшем с ними работать правильно
-    еще это немаловажно для защиты от ошибок, сбоев в программе, а также атак типа SQL Injection
-'''
+chr(65)  символ по коду.
+
+7. text.startswith("слово")
+
+8. чтобы предотвратить: ошибки ввода,некорректные данные,уязвимости (SQL-инъекции и тд),угрозы безопасности и утечки информации.
+"""
